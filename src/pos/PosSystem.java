@@ -6,13 +6,14 @@ import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import view.AdminView;
 import view.LoginView;
 
 public class PosSystem {
 
     public static void main(String[] args)throws UnsupportedLookAndFeelException {
     
-        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.setLookAndFeel(new FlatDarkLaf());
         
         UIManager.put("Component.background", Color.WHITE);
         UIManager.put("PasswordField.background", Color.WHITE);
@@ -23,7 +24,8 @@ public class PosSystem {
         UIManager.put("TextField.margin", new Insets(0,15,0,15));
         
         UIManager.put("Button.background", Color.WHITE);
-        UIManager.put("Button.arc", 10);
+        UIManager.put("Button.foreground", Color.BLACK);
+        UIManager.put("Button.arc", 15);
         UIManager.put("Button.margin", new Insets(0, 15, 0, 15));
         
         UIManager.put("Button.hoverBackground",new Color(153,51,255));
