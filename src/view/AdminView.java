@@ -4,6 +4,7 @@
  */
 package view;
 
+import controller.LoginController;
 import javax.swing.JOptionPane;
 
 /**
@@ -154,6 +155,7 @@ public class AdminView extends javax.swing.JFrame {
                     "LOGOUT", JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
             
             if(choice == JOptionPane.YES_OPTION){
+                new LoginController().logout();
                 new LoginView().setVisible(true);
                 this.dispose();
             }

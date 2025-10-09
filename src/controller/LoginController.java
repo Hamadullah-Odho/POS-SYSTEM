@@ -24,4 +24,8 @@ public class LoginController {
         return false;
     }
     
+    public void logout(){
+        CurrentSession.setCurrentUser(null);
+    }
+    
 }
