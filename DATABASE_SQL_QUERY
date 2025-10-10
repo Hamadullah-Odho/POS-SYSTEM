@@ -1,0 +1,95 @@
+-- =====================================================
+-- DATABASE CREATION SCRIPT FOR POS SYSTEM
+-- Author: Hamadullah Odho
+-- Description: Defines all tables and relationships 
+--              for the POS System database.
+-- =====================================================
+
+-- Create the database
+CREATE DATABASE pos_system;
+
+-- Select the database to use
+USE pos_system;
+
+-- =====================================================
+-- TABLE: user
+-- Purpose: Stores login credentials and user roles
+-- =====================================================
+CREATE TABLE user(
+	user_id INT AUTO_INCREMENT PRIMARY KEY,        -- Unique ID for each user
+    username VARCHAR(50) NOT NULL,                 -- Username for login
+    password VARCHAR(300) NOT NULL,                -- Encrypted user password
+	role VARCHAR(50) NOT NULL,                     -- Role (e.g., Admin, Cashier)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Record creation date/time
+);
+
+-- =====================================================
+-- TABLE: categories
+-- Purpose: Holds different product categories (e.g., Beverages, Snacks)
+-- =====================================================
+CREATE TABLE categories(
+	category_id INT AUTO_INCREMENT PRIMARY KEY,    -- Unique ID for each category
+    category_name VARCHAR(50)                     -- Name of the category
+);
+
+-- =====================================================
+-- TABLE: products
+-- Purpose: Stores product details
+-- =====================================================
+CREATE TABLE products(
+	product_id INT AUTO_INCREMENT PRIMARY KEY,     -- Unique ID for each product
+    name VARCHAR(100) NOT NULL,                    -- Product name
+    barcode VARCHAR(100),                          -- Product barcode
+    category_id INT,                               -- Reference to category
+    price DECIMAL(10,2),                           -- Selling price
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Record creation date/time
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+-- =====================================================
+-- TABLE: products_batches
+-- Purpose: Keeps track of product purchase batches with different prices
+-- Example: Product X purchased at Rs.50 first, then Rs.60 later
+-- =====================================================
+CREATE TABLE products_batches(
+	batch_id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique batch ID
+    product_id INT,                                -- Reference to product
+    purchase_price DECIMAL(10,2),                  -- Price per unit in this batch
+    quantity INT,                                  -- Remaining stock from this batch
+    total_purchased INT,                           -- Total purchased quantity in this batch
+    purchase_date DATE DEFAULT (CURDATE()),        -- Date of purchase
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- =====================================================
+-- TABLE: sales
+-- Purpose: Stores details of each sale transaction
+-- =====================================================
+CREATE TABLE sales(
+	sale_id INT AUTO_INCREMENT PRIMARY KEY,        -- Unique sale ID
+    user_id INT,                                   -- Cashier or user who made the sale
+    total_amount DECIMAL(10,2),                    -- Total bill amount
+    payment_type VARCHAR(50),                      -- Payment type (Cash, Card, etc.)
+	sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Sale date/time
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+
+-- =====================================================
+-- TABLE: sale_item
+-- Purpose: Stores items included in each sale (1 sale = many sale items)
+-- =====================================================
+CREATE TABLE sale_item(
+	sale_item_id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID for sale item
+    sale_id INT,                                   -- Reference to sale
+    product_id INT,                                -- Reference to product sold
+    quantity INT,                                  -- Quantity sold
+    price DECIMAL(10,2),                           -- Selling price per item
+    subtotal DECIMAL(10,2),                        -- Total = price * quantity
+    FOREIGN KEY (sale_id) REFERENCES sales(sale_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- =====================================================
+-- DROP TABLE EXAMPLE (Use only when needed)
+-- =====================================================
+-- DROP TABLE sale_item;
