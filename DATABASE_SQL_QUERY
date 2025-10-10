@@ -41,7 +41,6 @@ CREATE TABLE products(
     name VARCHAR(100) NOT NULL,                    -- Product name
     barcode VARCHAR(100),                          -- Product barcode
     category_id INT,                               -- Reference to category
-    price DECIMAL(10,2),                           -- Selling price
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Record creation date/time
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
@@ -54,7 +53,8 @@ CREATE TABLE products(
 CREATE TABLE products_batches(
 	batch_id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique batch ID
     product_id INT,                                -- Reference to product
-    purchase_price DECIMAL(10,2),                  -- Price per unit in this batch
+    purchase_price DECIMAL(10,2),                  -- Purchase Price per unit in this batch
+    sell_price DECIMAL(10,2),                      -- Sell Price per unit in this batch
     quantity INT,                                  -- Remaining stock from this batch
     total_purchased INT,                           -- Total purchased quantity in this batch
     purchase_date DATE DEFAULT (CURDATE()),        -- Date of purchase
