@@ -49,19 +49,6 @@ CREATE TABLE products(
 );
 
 -- =====================================================
--- TABLE: products_batches
--- Purpose: Keeps track of product purchase batches with different prices
--- Example: Product X purchased at Rs.50 first, then Rs.60 later
--- =====================================================
-CREATE TABLE products_batches(
-	batch_id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique batch ID
-    product_id INT,                                -- Reference to product
-            total_purchased INT,                           -- Total purchased quantity in this batch
-    purchase_date DATE DEFAULT (CURDATE()),        -- Date of purchase
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
-);
-
--- =====================================================
 -- TABLE: sales
 -- Purpose: Stores details of each sale transaction
 -- =====================================================
